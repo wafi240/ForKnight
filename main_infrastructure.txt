@@ -1,0 +1,44 @@
+codevault/
+├── pom.xml                         # parent: JDK 21, dependencyManagement
+├── codevault-common/               # shared by client, server, CLI hook
+│   └── src/main/java/dev/codevault/common/
+│       ├── dto/                    # UserDto, RepoDto, CommentDto, TxDto ...
+│       ├── enums/                  # AccessLevel, RequestStatus, TxStatus
+│       ├── json/                   # JsonMapper (Jackson config)
+│       └── scan/                   # SecretScanner engine (used by client, server, hook)
+│           ├── rules/              # regex + entropy rules
+│           └── ast/                # JavaParser-based detector
+├── codevault-server/               # Spring Boot 3
+│   └── src/main/
+│       ├── java/dev/codevault/server/
+│       │   ├── config/             # security, jackson, executors
+│       │   ├── auth/               # login, JWT, password hashing
+│       │   ├── repo/               # repo CRUD, JGit storage, file tree
+│       │   ├── access/             # contribution requests, collaborators
+│       │   ├── social/             # comments
+│       │   ├── market/             # licensing, ownership transfer, escrow, snippets
+│       │   ├── pr/                 # pull requests, diffs
+│       │   ├── ai/                 # LlmClient, prompt builder, review service
+│       │   └── payment/            # PaymentGateway (Simulated → Stripe)
+│       └── resources/
+│           ├── db/migration/       # Flyway: V1__init.sql, V2__...
+│           └── application.yml
+├── codevault-client/               # JavaFX app
+│   └── src/main/
+│       ├── java/dev/codevault/client/
+│       │   ├── App.java, Navigator.java
+│       │   ├── api/                # ApiClient (java.net.http), token store
+│       │   ├── service/            # AuthService, RepoService, DownloadService, ...
+│       │   ├── concurrent/         # AppExecutors, FxAsync, TaskRunner
+│       │   ├── viewmodel/          # properties/bindings, no UI code
+│       │   ├── controller/         # LoginController, DashboardController, RepoDetail...
+│       │   ├── download/           # GitHubUrlParser, SingleFileDownloader
+│       │   ├── git/                # local JGit ops, HookInstaller
+│       │   ├── graph/              # GraphLayout, Graph2DCanvas, Graph3DScene
+│       │   ├── merge/              # conflict model + drag-and-drop resolver
+│       │   └── ui/                 # reusable components, drag-drop helpers
+│       └── resources/
+│           ├── fxml/               # login.fxml, dashboard.fxml, repo-detail.fxml
+│           ├── css/                # theme-dark.css, theme-light.css
+│           └── rules/secrets.json
+└── codevault-hook/                 # tiny CLI jar called by .git/hooks/pre-commit
