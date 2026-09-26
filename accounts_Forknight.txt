@@ -1,0 +1,20 @@
+1. Wafi
+Username: wafi1314
+Password: 1314
+Repos: GameEngine, UtilsLib
+2. Alice
+Username: alice_dev
+Password: password123
+Repos: AwesomeApp, DataVisualizer
+3. Bob
+Username: bob_builder
+Password: password123
+Repos: MicroservicesTemplate, SecureAuthLib
+4. Charlie
+Username: charlie_code
+Password: password123
+Repos: ReactDashboard, MachineLearning101
+5. Diana
+Username: diana_design
+Password: password123
+Repos: UIComponents, CSSFramework
