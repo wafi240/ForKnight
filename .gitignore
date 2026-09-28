@@ -1,0 +1,16 @@
+target/
+*.class
+*.jar
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+*.log
+manual_client_log.txt
+application-local.yml
+apache-maven-*/
+maven.zip
+data/
+.mvn/
+
