@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/forknight_prod;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: "ProductionPassword123"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: false
+  h2:
+    console:
+      enabled: false
+
+jwt:
+  secret: "YOUR_SUPER_SECRET_PRODUCTION_KEY_THAT_IS_LONG_ENOUGH_FOR_HMAC_SHA256_PLEASE_CHANGE_THIS"
+  expiration: 86400000

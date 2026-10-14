@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.forknight.client.controller.MyContributionsController" spacing="15" VBox.vgrow="ALWAYS">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Label text="My Contributions" styleClass="label-title" style="-fx-font-size: 24px;" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="+ Refresh" styleClass="button-secondary" onAction="#loadMyContributions" />
+    </HBox>
+
+    <Label text="Repositories you've contributed to or requested access to." styleClass="label-subtitle" />
+
+    <TableView fx:id="contribTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colRepo" text="Repository" prefWidth="200" />
+            <TableColumn fx:id="colOwner" text="Owner" prefWidth="150" />
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="120" />
+            <TableColumn fx:id="colAccess" text="Access Level" prefWidth="120" />
+            <TableColumn fx:id="colAction" text="Action" prefWidth="150" />
+        </columns>
+    </TableView>
+</VBox>

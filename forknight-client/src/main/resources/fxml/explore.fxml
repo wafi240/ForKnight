@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forknight.client.controller.ExploreController"
+      spacing="15" styleClass="root">
+    <padding>
+        <Insets top="20" right="25" bottom="20" left="25"/>
+    </padding>
+
+    <!-- Header & Search Controls -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Label text="Explore Repositories" styleClass="label-title" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="⬇ Fast Single-File Download (No Clone)" styleClass="button" onAction="#handleDirectSingleFileDownload">
+            <tooltip><Tooltip text="Download a single file from any public repository without cloning the entire project" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <TextField fx:id="searchField" promptText="Search repositories by name or description..." HBox.hgrow="ALWAYS" onAction="#handleSearch">
+            <tooltip><Tooltip text="Type to search public repositories by name or description, then press Enter or click Search" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </TextField>
+        <Button text="🔍 Search" styleClass="button" onAction="#handleSearch">
+            <tooltip><Tooltip text="Search public repositories matching the query above" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Button text="Clear" styleClass="button-secondary" onAction="#handleClearSearch">
+            <tooltip><Tooltip text="Clear the search query and show all repositories" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="statusLabel" text="Discovering repositories..." styleClass="label-subtitle" />
+        <ProgressIndicator fx:id="loadingSpinner" prefWidth="20" prefHeight="20" visible="false">
+            <tooltip><Tooltip text="Fetching repositories from server, please wait..." showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </ProgressIndicator>
+    </HBox>
+
+    <!-- Explore Repos Container -->
+    <ScrollPane fitToWidth="true" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+        <VBox fx:id="exploreContainer" spacing="12">
+            <padding>
+                <Insets top="5" right="10" bottom="10" left="5"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
+
+    <!-- Pagination Footer -->
+    <HBox alignment="CENTER" spacing="15">
+        <Button fx:id="prevPageButton" text="← Previous" styleClass="button-secondary" onAction="#handlePrevPage">
+            <tooltip><Tooltip text="Go to the previous page of results" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Label fx:id="pageInfoLabel" text="Page 1" styleClass="label-subtitle" />
+        <Button fx:id="nextPageButton" text="Next →" styleClass="button-secondary" onAction="#handleNextPage">
+            <tooltip><Tooltip text="Go to the next page of results" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+    </HBox>
+</VBox>

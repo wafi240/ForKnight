@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.forknight.client.component.NotificationBell?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.forknight.client.controller.DashboardController" styleClass="root">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header-bar">
+            <Label text="ForKnight" styleClass="label-title">
+                <tooltip><Tooltip text="ForKnight — Code Marketplace &amp; Version Control" showDelay="400ms" hideDelay="100ms" /></tooltip>
+            </Label>
+            <Label text="v1.0" styleClass="badge">
+                <tooltip><Tooltip text="Application version 1.0" showDelay="400ms" hideDelay="100ms" /></tooltip>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="welcomeLabel">
+                <tooltip><Tooltip text="Logged in as this user" showDelay="400ms" hideDelay="100ms" /></tooltip>
+            </Label>
+            <Label fx:id="userRoleLabel" styleClass="badge">
+                <tooltip><Tooltip text="Your account role — determines what actions you can perform" showDelay="400ms" hideDelay="100ms" /></tooltip>
+            </Label>
+            <NotificationBell fx:id="notificationBell" />
+            <Button fx:id="logoutButton" text="Logout" styleClass="button-danger" onAction="#handleLogout">
+                <tooltip><Tooltip text="Log out of your account and return to the login screen" showDelay="400ms" hideDelay="100ms" /></tooltip>
+            </Button>
+        </HBox>
+    </top>
+    <center>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="myReposTab" text="📁 My Repos">
+                    <tooltip><Tooltip text="Browse repository files and source code" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                    <content>
+                        <fx:include source="my_repos.fxml" />
+                    </content>
+                </Tab>
+                <Tab fx:id="myContribTab" text="My Contributions">
+                    <tooltip><Tooltip text="View your contributions and pull requests to other repositories" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                    <content>
+                        <fx:include source="my_contributions.fxml" />
+                    </content>
+                </Tab>
+                <Tab fx:id="marketplaceTab" text="🛒 Marketplace">
+                    <tooltip><Tooltip text="Browse, buy, and sell code snippets in the marketplace" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                    <content>
+                        <fx:include source="marketplace.fxml" />
+                    </content>
+                </Tab>
+                <Tab fx:id="balanceHistoryTab" text="Balance History" closable="false">
+                    <content>
+                        <fx:include source="balance_history.fxml" />
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
+
+
+
+

@@ -8,9 +8,14 @@ target/
 .project
 *.log
 manual_client_log.txt
+*log*.txt
+client_log.txt
+server_log*.txt
 application-local.yml
 apache-maven-*/
 maven.zip
+maven/
 data/
 .mvn/
+.vscode/
 

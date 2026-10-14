@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forknight.client.controller.MyReposController"
+      spacing="15" styleClass="root">
+    <padding>
+        <Insets top="20" right="25" bottom="20" left="25"/>
+    </padding>
+
+    <!-- Top Action Bar -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Label text="My Repositories" styleClass="label-title" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="📥 Requests Inbox" styleClass="button-secondary" onAction="#handleShowRequestsInbox">
+            <tooltip><Tooltip text="View incoming contribution and copy-license requests for your repositories" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Button text="+ New Repository" styleClass="button" onAction="#handleNewRepoDialog">
+            <tooltip><Tooltip text="Create a new repository to store and manage your code" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Button text="↻ Refresh" styleClass="button-secondary" onAction="#loadMyRepos">
+            <tooltip><Tooltip text="Refresh the list of your repositories" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+    </HBox>
+
+    <Label fx:id="statusLabel" text="Loading repositories..." styleClass="label-subtitle" />
+    <ProgressIndicator fx:id="loadingSpinner" prefWidth="25" prefHeight="25" visible="false">
+        <tooltip><Tooltip text="Loading your repositories, please wait..." showDelay="400ms" hideDelay="100ms" /></tooltip>
+    </ProgressIndicator>
+
+    <!-- Repositories List Container -->
+    <ScrollPane fitToWidth="true" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+        <VBox fx:id="reposContainer" spacing="12">
+            <padding>
+                <Insets top="5" right="10" bottom="10" left="5"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
+</VBox>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forknight.client.controller.MarketplaceController"
+      spacing="15" styleClass="root">
+    <padding>
+        <Insets top="20" right="25" bottom="20" left="25"/>
+    </padding>
+
+    <!-- Top Action Bar -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Label text="Code Marketplace" styleClass="label-title" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="+ Sell Snippet" styleClass="button" onAction="#handleSellSnippetDialog">
+            <tooltip><Tooltip text="List a code snippet for sale — set a price and let other developers buy it" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Button text="↻ Refresh" styleClass="button-secondary" onAction="#loadSnippets">
+            <tooltip><Tooltip text="Refresh the marketplace to see the latest code snippets" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+    </HBox>
+
+    <!-- Filter & Search Bar -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <TextField fx:id="searchField" promptText="Search code snippets, algorithms, utilities..." HBox.hgrow="ALWAYS" onAction="#handleSearch">
+            <tooltip><Tooltip text="Search for code snippets by name, description, or keywords" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </TextField>
+
+        <Label text="Language:" styleClass="label-subtitle" />
+        <ComboBox fx:id="languageFilterCombo" prefWidth="120">
+            <tooltip><Tooltip text="Filter snippets by programming language" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </ComboBox>
+
+        <Label text="Price:" styleClass="label-subtitle" />
+        <ComboBox fx:id="priceFilterCombo" prefWidth="110">
+            <tooltip><Tooltip text="Filter snippets by price range (free, paid, or all)" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </ComboBox>
+
+        <Button text="🔍 Filter" styleClass="button" onAction="#handleSearch">
+            <tooltip><Tooltip text="Apply the selected language and price filters to the search results" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="statusLabel" text="Loading marketplace items..." styleClass="label-subtitle" />
+        <ProgressIndicator fx:id="loadingSpinner" prefWidth="20" prefHeight="20" visible="false">
+            <tooltip><Tooltip text="Loading marketplace items, please wait..." showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </ProgressIndicator>
+    </HBox>
+
+    <TabPane fx:id="marketTabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <tabs>
+            <Tab text="Snippets">
+                <content>
+                    <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+                        <VBox fx:id="snippetsContainer" spacing="12">
+                            <padding>
+                                <Insets top="5" right="10" bottom="10" left="5"/>
+                            </padding>
+                        </VBox>
+                    </ScrollPane>
+                </content>
+            </Tab>
+            <Tab text="Projects">
+                <content>
+                    <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+                        <VBox fx:id="projectsContainer" spacing="12">
+                            <padding>
+                                <Insets top="5" right="10" bottom="10" left="5"/>
+                            </padding>
+                        </VBox>
+                    </ScrollPane>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
+
+    <!-- Pagination Footer -->
+    <HBox alignment="CENTER" spacing="15">
+        <Button fx:id="prevPageButton" text="← Previous" styleClass="button-secondary" onAction="#handlePrevPage">
+            <tooltip><Tooltip text="Go to the previous page of marketplace listings" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Label fx:id="pageInfoLabel" text="Page 1" styleClass="label-subtitle" />
+        <Button fx:id="nextPageButton" text="Next →" styleClass="button-secondary" onAction="#handleNextPage">
+            <tooltip><Tooltip text="Go to the next page of marketplace listings" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+    </HBox>
+</VBox>
+

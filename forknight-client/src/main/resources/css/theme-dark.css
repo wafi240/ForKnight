@@ -1,0 +1,431 @@
+/* ============================================================
+   ForKnight — Premium Dark Developer-Tool Theme
+   ============================================================
+   Design tokens (GitHub + VS Code + Linear inspired)
+   --------------------------------------------------
+   App background:       #0B0C14
+   Primary surface:      #11131F
+   Secondary surface:    #151827
+   Elevated surface:     #191C2C
+   Navigation/header:    #0D0F1A
+   Borders:              #252941
+   Subtle borders:       #1C1F30
+   Primary text:         #F1F3FA
+   Secondary text:       #9A9FB5
+   Muted text:           #666B82
+   Primary accent:       #7C3AED
+   Secondary accent:     #6366F1
+   Accent highlight:     #8B5CF6
+   Hover surface:        #1D2032
+   Success:              #22C55E
+   Warning:              #F59E0B
+   Error:                #EF4444
+   Info:                 #38BDF8
+   ============================================================ */
+
+/* ── Root & Global ────────────────────────────────── */
+
+.root {
+    -fx-background-color: #0B0C14;
+    -fx-font-family: "Segoe UI", "Inter", system-ui, SansSerif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #F1F3FA;
+}
+
+/* ── Typography ───────────────────────────────────── */
+
+.label {
+    -fx-text-fill: #F1F3FA;
+}
+
+.label-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #F1F3FA;
+}
+
+.label-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #9A9FB5;
+}
+
+.label-error {
+    -fx-text-fill: #EF4444;
+    -fx-font-size: 12px;
+}
+
+/* ── Form Inputs ──────────────────────────────────── */
+
+.text-field,
+.password-field,
+.text-area {
+    -fx-background-color: #11131F;
+    -fx-text-fill: #F1F3FA;
+    -fx-border-color: #252941;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 12;
+    -fx-prompt-text-fill: #666B82;
+    -fx-highlight-fill: #7C3AED;
+    -fx-highlight-text-fill: white;
+}
+
+.text-field:focused,
+.password-field:focused,
+.text-area:focused {
+    -fx-border-color: #7C3AED;
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.20), 8, 0, 0, 0);
+}
+
+/* ── Combo Box ────────────────────────────────────── */
+
+.combo-box {
+    -fx-background-color: #11131F;
+    -fx-border-color: #252941;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #F1F3FA;
+    -fx-padding: 4 8;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #11131F;
+    -fx-text-fill: #F1F3FA;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #151827;
+    -fx-border-color: #252941;
+}
+
+.combo-box-popup .list-cell {
+    -fx-background-color: #151827;
+    -fx-text-fill: #F1F3FA;
+    -fx-padding: 6 10;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #1D2032;
+}
+
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #7C3AED;
+    -fx-text-fill: white;
+}
+
+/* ── Buttons — Primary ────────────────────────────── */
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #7C3AED, #6D31D8);
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 18;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.18), 6, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #8B5CF6, #7C3AED);
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.30), 12, 0, 0, 3);
+}
+
+.button:pressed {
+    -fx-background-color: #6D31D8;
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.10), 3, 0, 0, 1);
+}
+
+/* ── Buttons — Secondary ──────────────────────────── */
+
+.button-secondary {
+    -fx-background-color: #151827;
+    -fx-text-fill: #F1F3FA;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-border-color: #252941;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #1D2032;
+    -fx-border-color: #7C3AED;
+}
+
+.button-secondary:pressed {
+    -fx-background-color: #11131F;
+}
+
+/* ── Buttons — Danger ─────────────────────────────── */
+
+.button-danger {
+    -fx-background-color: rgba(239,68,68,0.12);
+    -fx-text-fill: #F87171;
+    -fx-font-weight: bold;
+    -fx-border-color: rgba(239,68,68,0.30);
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.button-danger:hover {
+    -fx-background-color: rgba(239,68,68,0.22);
+    -fx-border-color: rgba(239,68,68,0.50);
+}
+
+/* ── Hyperlinks ───────────────────────────────────── */
+
+.hyperlink {
+    -fx-text-fill: #8B5CF6;
+    -fx-border-color: transparent;
+    -fx-font-size: 13px;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #A78BFA;
+}
+
+.hyperlink:visited {
+    -fx-text-fill: #7C3AED;
+}
+
+/* ── Check Box ────────────────────────────────────── */
+
+.check-box {
+    -fx-text-fill: #9A9FB5;
+}
+
+.check-box .box {
+    -fx-background-color: #11131F;
+    -fx-border-color: #252941;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #7C3AED;
+    -fx-border-color: #7C3AED;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+/* ── Tab Pane & Tabs ──────────────────────────────── */
+
+.tab-pane {
+    -fx-background-color: #0B0C14;
+}
+
+.tab-pane .tab-header-area {
+    -fx-background-color: #0D0F1A;
+    -fx-padding: 4 0 0 8;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: #0D0F1A;
+}
+
+.tab-pane .headers-region {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8 8 0 0;
+    -fx-border-radius: 8 8 0 0;
+    -fx-padding: 8 16;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.tab .tab-label {
+    -fx-text-fill: #666B82;
+    -fx-font-weight: normal;
+    -fx-font-size: 13px;
+}
+
+.tab:hover {
+    -fx-background-color: #1D2032;
+}
+
+.tab:hover .tab-label {
+    -fx-text-fill: #9A9FB5;
+}
+
+.tab:selected {
+    -fx-background-color: rgba(124,58,237,0.08);
+    -fx-border-color: transparent transparent #7C3AED transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: #F1F3FA;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab-content-area {
+    -fx-background-color: #0B0C14;
+}
+
+/* ── Progress Indicator ───────────────────────────── */
+
+.progress-indicator {
+    -fx-progress-color: #7C3AED;
+}
+
+/* ── Scroll Pane & Scroll Bars ────────────────────── */
+
+.scroll-pane {
+    -fx-background-color: #0B0C14;
+    -fx-background: #0B0C14;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #0B0C14;
+}
+
+.scroll-bar {
+    -fx-background-color: #0B0C14;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #252941;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #353A55;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-shape: "";
+    -fx-padding: 0;
+}
+
+/* ── Header / Navigation Bar ─────────────────────── */
+
+.header-bar {
+    -fx-background-color: #0D0F1A;
+    -fx-padding: 12 24;
+    -fx-border-color: transparent transparent #1C1F30 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 2);
+}
+
+/* ── Login Card ───────────────────────────────────── */
+
+.login-card {
+    -fx-background-color: #11131F;
+    -fx-border-color: #252941;
+    -fx-border-width: 1;
+    -fx-border-radius: 14;
+    -fx-background-radius: 14;
+    -fx-padding: 44;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.40), 30, 0, 0, 8);
+}
+
+/* ── Cards / Panels ───────────────────────────────── */
+
+.card {
+    -fx-background-color: #11131F;
+    -fx-border-color: #252941;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 12, 0, 0, 4);
+}
+
+/* ── Badges ───────────────────────────────────────── */
+
+.badge {
+    -fx-background-color: rgba(124,58,237,0.14);
+    -fx-border-color: rgba(124,58,237,0.28);
+    -fx-border-width: 1;
+    -fx-text-fill: #A78BFA;
+    -fx-padding: 3 10;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* ── Empty State ──────────────────────────────────── */
+
+.empty-state {
+    -fx-text-fill: #666B82;
+    -fx-font-style: italic;
+}
+
+/* ── Status Colors ────────────────────────────────── */
+
+.success {
+    -fx-text-fill: #22C55E;
+}
+
+.warning {
+    -fx-text-fill: #F59E0B;
+}
+
+.danger {
+    -fx-text-fill: #EF4444;
+}
+
+/* ── Separator ────────────────────────────────────── */
+
+.separator .line {
+    -fx-border-color: #1C1F30;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ── Tooltip ──────────────────────────────────────── */
+
+.tooltip {
+    -fx-background-color: #191C2C;
+    -fx-text-fill: #F1F3FA;
+    -fx-border-color: #252941;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10;
+    -fx-font-size: 12px;
+}
+
+/* ── Dialog / Alert ───────────────────────────────── */
+
+.dialog-pane {
+    -fx-background-color: #11131F;
+    -fx-border-color: #252941;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #0D0F1A;
+}
+
+.dialog-pane .content {
+    -fx-text-fill: #F1F3FA;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-font-size: 12px;
+}

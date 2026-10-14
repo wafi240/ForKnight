@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.forknight.client.controller.RepoDetailController"
+      spacing="12" styleClass="root">
+    <padding>
+        <Insets top="15" right="20" bottom="15" left="20"/>
+    </padding>
+
+    <!-- Top Navigation & Repo Info Header -->
+    <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header-bar">
+        <Button text="← Back to Dashboard" styleClass="button-secondary" onAction="#handleBackToDashboard">
+            <tooltip><Tooltip text="Return to the main dashboard" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Label fx:id="repoTitleLabel" text="Repository Name" styleClass="label-title">
+            <tooltip><Tooltip text="This repository's full name" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Label>
+        <Label fx:id="visibilityBadge" text="Public" styleClass="status-badge-approved">
+            <tooltip><Tooltip text="Repository visibility — Public means anyone can view this repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Label>
+        <Label fx:id="licenseBadge" text="MIT" styleClass="badge">
+            <tooltip><Tooltip text="License type applied to this repository's code" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Label>
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="👥 Request Contrib" styleClass="button-secondary" onAction="#handleHeaderRequestContrib">
+            <tooltip><Tooltip text="Send a request to the repository owner to become a contributor" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Button text="📜 Request Copy" styleClass="button-secondary" onAction="#handleHeaderRequestCopy">
+            <tooltip><Tooltip text="Request a copy license to legally use or fork this repository's code" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Button text="⚡ Git Palette" styleClass="button" onAction="#handleOpenGitPalette">
+            <tooltip><Tooltip text="Open the Git command palette — commit, stash, branch, and manage your working tree" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Button>
+        <Label fx:id="repoStatsLabel" text="⭐ 0 stars | 🍴 0 forks" styleClass="label-subtitle">
+            <tooltip><Tooltip text="Total stars and forks this repository has received" showDelay="400ms" hideDelay="100ms" /></tooltip>
+        </Label>
+    </HBox>
+
+    <Label fx:id="repoDescriptionLabel" text="Repository description will appear here..." styleClass="label-subtitle" />
+
+    <!-- Detail Tabs -->
+    <TabPane fx:id="detailTabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <tabs>
+            <!-- Tab 1: Files & Code Browser -->
+            <Tab text="📁 Files &amp; Code">
+                <tooltip><Tooltip text="Browse repository files and inspect source code" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                <content>
+                    <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
+                        <!-- Left Panel: File Tree -->
+                        <VBox spacing="8">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="File Explorer" styleClass="label-subtitle" style="-fx-font-weight: bold;">
+                                    <tooltip><Tooltip text="Navigate the repository's directory and file structure" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Label>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button text="Upload File" styleClass="button-primary" onAction="#handleUploadFile">
+                                    <tooltip><Tooltip text="Upload a new file to this repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Button>
+                                <Button text="↻" styleClass="button-secondary" onAction="#refreshFileTree">
+                                    <tooltip><Tooltip text="Reload the file tree from the repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Button>
+                            </HBox>
+                            <TreeView fx:id="fileTreeView" VBox.vgrow="ALWAYS">
+                                <tooltip><Tooltip text="Click a file to view its contents in the code viewer on the right" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </TreeView>
+                        </VBox>
+
+                        <!-- Right Panel: Code Viewer & Single-File Downloader -->
+                        <VBox spacing="10">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                            <HBox alignment="CENTER_LEFT" spacing="15">
+                                <Label fx:id="currentFileLabel" text="Select a file to inspect" styleClass="label-subtitle" style="-fx-font-weight: bold;">
+                                    <tooltip><Tooltip text="The currently selected file path" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Label>
+                                <Label fx:id="fileSizeLabel" text="" styleClass="label-subtitle">
+                                    <tooltip><Tooltip text="File size in bytes" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Label>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button fx:id="downloadCurrentFileButton" text="⬇ Download This File" styleClass="button" onAction="#handleDownloadSelectedFile" disable="true">
+                                    <tooltip><Tooltip text="Download the currently viewed file to your computer" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Button>
+                            </HBox>
+                            <TextArea fx:id="codeViewer" editable="false" wrapText="false" styleClass="code-view" VBox.vgrow="ALWAYS">
+                                <tooltip><Tooltip text="Read-only code viewer — select a file from the tree on the left to inspect it here" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </TextArea>
+                        </VBox>
+                    </SplitPane>
+                </content>
+            </Tab>
+
+            <!-- Tab 2: Commit History -->
+            <Tab text="🕒 Commits">
+                <tooltip><Tooltip text="View the full commit history of this repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                <content>
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Commit History" styleClass="label-subtitle" style="-fx-font-weight: bold;">
+                                <tooltip><Tooltip text="Chronological list of all commits made to this repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button text="↻ Refresh Commits" styleClass="button-secondary" onAction="#loadCommits">
+                                <tooltip><Tooltip text="Reload the commit history from the repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Button>
+                        </HBox>
+                        <ListView fx:id="commitsListView" VBox.vgrow="ALWAYS">
+                            <tooltip><Tooltip text="Each entry shows the commit message, author, and timestamp" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                        </ListView>
+                    </VBox>
+                </content>
+            </Tab>
+
+            <!-- Tab 3: Git Graph (2D / 3D Toggle) -->
+            <Tab text="Git Graph">
+                <tooltip><Tooltip text="Visualize commits as a 2D timeline or an interactive 3D graph" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                <content>
+                    <SplitPane dividerPositions="0.75" VBox.vgrow="ALWAYS">
+                        <!-- Graph Canvas Area -->
+                        <VBox spacing="8" minWidth="0">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                            <!-- Toolbar with Toggle -->
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label fx:id="graphModeLabel" text="2D Commit Timeline" styleClass="label-subtitle" style="-fx-font-weight: bold;" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <ToggleButton fx:id="graphToggleBtn" text="Switch to 3D" styleClass="button-secondary" onAction="#handleGraphToggle" />
+                                <Button text="Reload" styleClass="button-secondary" onAction="#handleReloadGraph" />
+                            </HBox>
+                            <!-- StackPane holds both 2D and 3D layers; only one visible at a time -->
+                            <StackPane VBox.vgrow="ALWAYS" minWidth="0">
+                                <!-- 2D Graph (ScrollPane + Canvas) -->
+                                <ScrollPane fx:id="graph2DScroll" fitToWidth="true" fitToHeight="true" minWidth="0"
+                                            style="-fx-background-color: #0B0C14; -fx-border-color: #1C1F30; -fx-border-radius: 8; -fx-background-radius: 8;">
+                                    <content>
+                                        <Canvas fx:id="graph2DCanvas" width="800" height="600" />
+                                    </content>
+                                </ScrollPane>
+                                <!-- 3D Graph -->
+                                <StackPane fx:id="graph3DContainer" visible="false" minWidth="0"
+                                           style="-fx-background-color: #0B0C14; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #1C1F30;" />
+                            </StackPane>
+                        </VBox>
+
+                        <!-- Inspector Sidebar -->
+                        <VBox spacing="10" minWidth="280" maxWidth="280" prefWidth="280">
+                            <padding>
+                                <Insets top="15" right="15" bottom="15" left="15"/>
+                            </padding>
+                            <Label text="Commit Inspector" styleClass="label-title" style="-fx-font-size: 16px;">
+                                <tooltip><Tooltip text="Inspect detailed information about a selected commit" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+                            <Label text="Click any commit sphere in 3D space to inspect." styleClass="label-subtitle" wrapText="true" />
+                            <Separator />
+                            <Label text="Commit Hash:" styleClass="label-subtitle" style="-fx-font-weight: bold;" />
+                            <Label fx:id="inspectorHashLabel" text="-" wrapText="true" style="-fx-text-fill: #8B5CF6;">
+                                <tooltip><Tooltip text="The full SHA-1 commit hash — unique identifier for this commit" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+
+                            <Label text="Branch:" styleClass="label-subtitle" style="-fx-font-weight: bold;" />
+                            <Label fx:id="inspectorBranchLabel" text="-" styleClass="badge">
+                                <tooltip><Tooltip text="The branch this commit belongs to" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+
+                            <Label text="Author:" styleClass="label-subtitle" style="-fx-font-weight: bold;" />
+                            <Label fx:id="inspectorAuthorLabel" text="-" style="-fx-text-fill: #F1F3FA;">
+                                <tooltip><Tooltip text="The author who made this commit" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+
+                            <Label text="Date:" styleClass="label-subtitle" style="-fx-font-weight: bold;" />
+                            <Label fx:id="inspectorDateLabel" text="-" style="-fx-text-fill: #9A9FB5;">
+                                <tooltip><Tooltip text="The date and time this commit was created" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+
+                            <Label text="Message:" styleClass="label-subtitle" style="-fx-font-weight: bold;" />
+                            <TextArea fx:id="inspectorMessageArea" editable="false" wrapText="true" prefRowCount="4" styleClass="code-view">
+                                <tooltip><Tooltip text="The full commit message describing the changes made" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </TextArea>
+                        </VBox>
+                    </SplitPane>
+                </content>
+            </Tab>
+
+            <!-- Tab 4: Secret Leakage Scanner -->
+            <Tab text="🛡️ Secret Scanner">
+                <tooltip><Tooltip text="Scan the repository's code for accidentally exposed secrets, API keys, and credentials" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                <content>
+                    <VBox spacing="12">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT" spacing="15">
+                            <Label text="Secret Leakage Prevention &amp; Scanner" styleClass="label-title" style="-fx-font-size: 18px;">
+                                <tooltip><Tooltip text="Detect hardcoded secrets, tokens, passwords, and API keys in your codebase" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button text="🛡 Scan Repository for Leaks" styleClass="button" onAction="#handleRunSecretScan">
+                                <tooltip><Tooltip text="Run a security scan across all files to detect hardcoded secrets, credentials, and API keys" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Button>
+                        </HBox>
+
+                        <Label fx:id="scannerBanner" text="No scans run yet. Click 'Scan Repository' to detect credentials or secrets." styleClass="card" style="-fx-text-fill: #9A9FB5;">
+                            <tooltip><Tooltip text="Scan status — shows results summary after scanning" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                        </Label>
+
+                        <TableView fx:id="secretsTable" VBox.vgrow="ALWAYS">
+                            <tooltip><Tooltip text="Scan results — each row shows a detected secret with its file, line number, and severity" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            <columns>
+                                <TableColumn fx:id="colSeverity" text="Severity" prefWidth="100">
+                                </TableColumn>
+                                <TableColumn fx:id="colRule" text="Rule Name" prefWidth="180">
+                                </TableColumn>
+                                <TableColumn fx:id="colFile" text="File" prefWidth="250">
+                                </TableColumn>
+                                <TableColumn fx:id="colLine" text="Line" prefWidth="70">
+                                </TableColumn>
+                                <TableColumn fx:id="colSnippet" text="Masked Secret" prefWidth="220">
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </content>
+            </Tab>
+
+            <!-- Tab 5: Public Comments & Suggestions -->
+            <Tab text="💬 Comments &amp; Suggestions">
+                <tooltip><Tooltip text="Read and post public comments and code change suggestions for this repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                <content>
+                    <VBox spacing="12">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <!-- Add Comment Box -->
+                        <VBox spacing="8" styleClass="card">
+                            <Label text="Post a Public Comment or Suggestion" styleClass="label-subtitle" style="-fx-font-weight: bold;">
+                                <tooltip><Tooltip text="Write a public comment or code suggestion visible to all collaborators" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+                            <TextArea fx:id="newCommentArea" promptText="Leave a public comment, suggestion, or review..." prefRowCount="3" wrapText="true">
+                                <tooltip><Tooltip text="Write your comment or code suggestion here — it will be visible to everyone" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </TextArea>
+                            <HBox alignment="CENTER_LEFT" spacing="15">
+                                <CheckBox fx:id="isSuggestionCheck" text="This is a code change suggestion">
+                                    <tooltip><Tooltip text="Mark this as a code change suggestion so the repository owner can apply it directly" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </CheckBox>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button text="Post Comment" styleClass="button" onAction="#handlePostComment">
+                                    <tooltip><Tooltip text="Publish your comment or suggestion to this repository's discussion" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Button>
+                            </HBox>
+                        </VBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="All Comments" styleClass="label-subtitle" style="-fx-font-weight: bold;">
+                                <tooltip><Tooltip text="All public comments and suggestions posted on this repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button text="↻ Refresh Comments" styleClass="button-secondary" onAction="#loadComments">
+                                <tooltip><Tooltip text="Reload the comments list to see the latest discussion" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Button>
+                        </HBox>
+
+                        <!-- Comments List -->
+                        <ScrollPane fitToWidth="true" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+                            <VBox fx:id="commentsContainer" spacing="10">
+                                <padding>
+                                    <Insets top="5" right="10" bottom="10" left="5"/>
+                                </padding>
+                            </VBox>
+                        </ScrollPane>
+                    </VBox>
+                </content>
+            </Tab>
+
+            <!-- Tab 6: Pull Requests -->
+            <Tab text="🔀 Pull Requests">
+                <tooltip><Tooltip text="Review, create, and manage pull requests for this repository" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                <content>
+                    <VBox spacing="12">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT" spacing="12">
+                            <Label text="Pull Requests" styleClass="label-title" style="-fx-font-size: 18px;">
+                                <tooltip><Tooltip text="Manage proposed code changes from contributors" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button text="↻ Refresh" styleClass="button-secondary" onAction="#loadPullRequests">
+                                <tooltip><Tooltip text="Refresh the pull request list with the latest data" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Button>
+                            <Button text="+ New Pull Request" styleClass="button" onAction="#handleNewPullRequest">
+                                <tooltip><Tooltip text="Create a new pull request to propose merging your branch into the target branch" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Button>
+                        </HBox>
+
+                        <ScrollPane fitToWidth="true" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+                            <VBox fx:id="prContainer" spacing="10">
+                                <padding>
+                                    <Insets top="5" right="10" bottom="10" left="5"/>
+                                </padding>
+                            </VBox>
+                        </ScrollPane>
+                    </VBox>
+                </content>
+            </Tab>
+
+            <!-- Tab 7: AI Code Reviewer -->
+            <Tab text="🤖 AI Code Reviewer">
+                <tooltip><Tooltip text="Analyze code snippets for bugs, security issues, and optimizations using AI" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                <content>
+                    <SplitPane dividerPositions="0.45" VBox.vgrow="ALWAYS">
+                        <!-- Left Panel: Code Input & Model Config -->
+                        <VBox spacing="10">
+                            <padding>
+                                <Insets top="15" right="15" bottom="15" left="15"/>
+                            </padding>
+                            <Label text="Instant AI Code Review" styleClass="label-title" style="-fx-font-size: 16px;">
+                                <tooltip><Tooltip text="Submit code for AI-powered analysis of bugs, vulnerabilities, and improvements" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Label>
+                            <Label text="Analyze code snippets or patches for bugs, security vulnerabilities, and optimizations." styleClass="label-subtitle" wrapText="true" />
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="Model:" style="-fx-text-fill: #9A9FB5; -fx-font-weight: bold;">
+                                    <tooltip><Tooltip text="The AI language model that will review your code" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Label>
+                                <ComboBox fx:id="aiModelCombo" prefWidth="180">
+                                    <tooltip><Tooltip text="Select which AI model to use for the code review" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </ComboBox>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button text="Review Current File" styleClass="button-secondary" onAction="#handleReviewCurrentFile">
+                                    <tooltip><Tooltip text="Send the currently open file from the Files tab to the AI reviewer" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Button>
+                            </HBox>
+                            <PasswordField fx:id="aiApiKeyField" promptText="Optional API Key (for external LLMs like OpenAI/Claude)">
+                                <tooltip><Tooltip text="Optionally provide your own API key to use external AI providers like OpenAI or Anthropic Claude" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </PasswordField>
+                            <TextArea fx:id="aiCodeInputArea" promptText="Paste code snippet or diff to review..." styleClass="code-view" VBox.vgrow="ALWAYS">
+                                <tooltip><Tooltip text="Paste the code snippet or diff you want the AI to review here" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </TextArea>
+                            <Button text="🚀 Run AI Code Review" styleClass="button" onAction="#handleRunStandaloneAiReview" maxWidth="Infinity">
+                                <tooltip><Tooltip text="Submit the code above to the selected AI model for review — results will appear on the right" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                            </Button>
+                        </VBox>
+
+                        <!-- Right Panel: Review Results & Score -->
+                        <VBox spacing="10">
+                            <padding>
+                                <Insets top="15" right="15" bottom="15" left="15"/>
+                            </padding>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="Review Findings &amp; Quality Report" styleClass="label-title" style="-fx-font-size: 16px;">
+                                    <tooltip><Tooltip text="AI-generated findings — issues, suggestions, and an overall code quality score" showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </Label>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <ProgressIndicator fx:id="aiLoadingSpinner" visible="false" prefWidth="20" prefHeight="20">
+                                    <tooltip><Tooltip text="AI review is in progress, please wait..." showDelay="400ms" hideDelay="100ms" /></tooltip>
+                                </ProgressIndicator>
+                            </HBox>
+                            <ScrollPane fitToWidth="true" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+                                <VBox fx:id="aiReviewContainer" spacing="12">
+                                    <padding>
+                                        <Insets top="5" right="10" bottom="10" left="5"/>
+                                    </padding>
+                                    <Label text="Click 'Run AI Code Review' to inspect code." styleClass="label-subtitle" style="-fx-font-style: italic;" />
+                                </VBox>
+                            </ScrollPane>
+                        </VBox>
+                    </SplitPane>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>
+
+

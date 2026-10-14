@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.SVGPath?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.forknight.client.controller.LoginController" styleClass="login-root">
+    
+    <!-- Centered container for the login card -->
+    <HBox alignment="CENTER" fillHeight="false">
+        
+        <!-- The Glass Card (with hover glow effect in CSS) -->
+        <VBox alignment="CENTER_LEFT" spacing="22" prefWidth="520" styleClass="glass-card">
+            
+            <!-- Logo / Title -->
+            <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10 0 5 0;">
+                <!-- Small Geometric Logo Icon (Hexagon/Cube shape) -->
+                <SVGPath content="M12 2L22 7.773V16.227L12 22L2 16.227V7.773L12 2ZM12 4.309L4 8.927V15.073L12 19.691L20 15.073V8.927L12 4.309Z" fill="#8B5CF6" scaleX="1.5" scaleY="1.5" />
+                
+                <Label text="ForKn8" styleClass="logo-text" />
+            </HBox>
+            
+            <!-- Subtitles -->
+            <VBox spacing="8" alignment="CENTER" style="-fx-padding: 0 0 10 0;">
+                <Label text="Welcome to ForKn8" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #F1F3FA;" />
+                <Label text="Your code. Your repositories. Your workflow." style="-fx-text-fill: #9A9FB5; -fx-font-size: 15px;" />
+            </VBox>
+
+            <!-- Username / Email Field -->
+            <VBox spacing="6">
+                <Label text="Username or Email" style="-fx-text-fill: #F1F3FA; -fx-font-size: 15px;" />
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="input-container">
+                    <Label text="👤" styleClass="input-icon" style="-fx-text-fill: #6F758A;" />
+                    <TextField fx:id="usernameField" promptText="#111522" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                </HBox>
+            </VBox>
+            
+            <!-- Password Field -->
+            <VBox spacing="6" style="-fx-padding: 0 0 5 0;">
+                <Label text="Password" style="-fx-text-fill: #F1F3FA; -fx-font-size: 15px;" />
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="input-container">
+                    <Label text="🔒" styleClass="input-icon" style="-fx-text-fill: #6F758A;" />
+                    <PasswordField fx:id="passwordField" promptText="#6F758A" styleClass="transparent-input" HBox.hgrow="ALWAYS" />
+                </HBox>
+            </VBox>
+            
+            <!-- Buttons -->
+            <VBox spacing="12" alignment="CENTER" style="-fx-padding: 10 0 5 0;">
+                <Button fx:id="loginButton" text="Sign in" maxWidth="Infinity" onAction="#handleLogin" styleClass="button" style="-fx-pref-height: 44px; -fx-font-size: 15px; -fx-font-weight: bold;" />
+                <Button text="Continue with GitHub" maxWidth="Infinity" styleClass="button-secondary" style="-fx-pref-height: 44px; -fx-font-size: 14px;">
+                    <graphic>
+                        <Label text="🐙" style="-fx-text-fill: white; -fx-font-size: 16px;" />
+                    </graphic>
+                </Button>
+            </VBox>
+            
+            <!-- Dynamic Error & Loading -->
+            <VBox alignment="CENTER" spacing="5">
+                <Label fx:id="errorLabel" styleClass="label-error" wrapText="true" />
+                <ProgressIndicator fx:id="loadingSpinner" prefWidth="24" prefHeight="24" visible="false" />
+            </VBox>
+            
+            <!-- Links -->
+            <VBox alignment="CENTER" spacing="8" style="-fx-padding: 5 0 0 0;">
+                <Hyperlink text="Forgot password?" style="-fx-text-fill: #9A9FB5; -fx-font-size: 13px;" />
+                <HBox alignment="CENTER" spacing="5">
+                    <Label text="Don't have an account?" style="-fx-text-fill: #9A9FB5; -fx-font-size: 13px;" />
+                    <Hyperlink fx:id="registerLink" text="Sign up" onAction="#handleRegisterLink" style="-fx-font-size: 13px; -fx-text-fill: #8B5CF6;" />
+                </HBox>
+            </VBox>
+            
+        </VBox>
+    </HBox>
+
+    <!-- Footer aligned to bottom right -->
+    <VBox alignment="BOTTOM_RIGHT" pickOnBounds="false">
+        <padding>
+            <Insets bottom="30" right="80" />
+        </padding>
+        <Label text="ForKn8 — Version Control, Reimagined." style="-fx-text-fill: #666B82; -fx-font-size: 12px;" />
+    </VBox>
+    
+</StackPane>
